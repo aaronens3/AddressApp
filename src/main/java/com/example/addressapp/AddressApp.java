@@ -1,23 +1,157 @@
 package com.example.addressapp;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import models.Contact;
+import java.util.prefs.Preferences;
 
-import java.io.IOException;
+import java.io.*;
 
-public class HelloApplication extends Application {
+public class AddressApp extends Application {
+    private Stage primaryStage;
+    private BorderPane rootLayout;
+
+    private ObservableList<Contact> contactes = FXCollections.observableArrayList();
+
+    public AddressApp() {
+        this.contactes.add(new Contact("Guillermo", "Garrido Portes", "C/Albacete", "Valencia", 47002, 11, 01, 1995));
+        this.contactes.add(new Contact("Pepe", "Antonio", "C/Albacete", "Valencia", 47002, 11, 01, 1995));
+        this.contactes.add(new Contact("Guillermo", "Garrido Portes", "C/Albacete", "Valencia", 47002, 11, 01, 1995));
+        this.contactes.add(new Contact("Guillermo", "Garrido Portes", "C/Albacete", "Valencia", 47002, 11, 01, 1995));
+        this.contactes.add(new Contact("Guillermo", "Garrido Portes", "C/Albacete", "Valencia", 47002, 11, 01, 1995));
+    }
+
+    public ObservableList<Contact> getContactes() {
+        return this.contactes;
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Index.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
-        stage.setTitle("Hello!");
-        stage.setScene(scene);
-        stage.show();
+        this.primaryStage = stage;
+        this.primaryStage.setTitle("Activitat Avaluable 2 - APrimo");
+        Image icona = new Image("file:resources/images/icona.png");
+        this.primaryStage.getIcons().add(icona);
+        initRootLayout();
+        showIndex();
+
+
     }
+
+    private void showIndex() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("Index.fxml"));
+            AnchorPane index = (AnchorPane) loader.load();
+            this.rootLayout.setCenter(index);
+            IndexController controller = loader.getController();
+            controller.setAddressApp(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initRootLayout() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("RootLayout.fxml"));
+            this.rootLayout = loader.load();
+            Scene scene = new Scene(this.rootLayout);
+            this.primaryStage.setScene(scene);
+            RootLayoutController controller = loader.getController();
+            controller.setAddressApp(this);
+            this.primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public Window getPrimaryStage() {
+        return this.primaryStage;
+    }
+
+
+
+    public void saveContactDataToFile(File arxiu) {
+        try {
+            FileWriter fitxer = new FileWriter(arxiu);
+            fitxer.write("");
+            fitxer.close();
+            fitxer = new FileWriter(arxiu, true);
+            for (Contact contacte : this.contactes) {
+                String str = contacte.getNom().get() + ","
+                        + contacte.getCognoms().get() + ","
+                        + contacte.getDomicili().get() + ","
+                        + contacte.getCiutat().get() + ","
+                        + String.valueOf(contacte.getCodiPostal().get()) + ","
+                        + DateUtil.format(contacte.getDataNaixement().get());
+                fitxer.write(str);
+                fitxer.write(System.lineSeparator());
+            }
+            fitxer.close();
+            this.setContactesFilePath(arxiu);
+        } catch (Exception ex){
+            System.err.println("Error al guardar els contactes en el arxiu: " + arxiu.getName());
+        }
+    }
+
+
+
+
+    public void setContactesFilePath(File arxiu) {
+        Preferences prefs = Preferences.userNodeForPackage(getClass());
+        if (arxiu != null) {
+            prefs.put("ruta_arxiu", arxiu.getPath());
+        } else {
+            prefs.remove("ruta_arxiu");
+        }
+    }
+
+    public File getContactesFilePath() {
+        Preferences prefs = Preferences.userNodeForPackage(getClass());
+        String ruta = prefs.get("ruta_arxiu", null);
+        if (ruta != null) {
+            return new File(ruta);
+        } else {
+            return null;
+        }
+    }
+
+    public void loadContactDataFromFile(File arxiu) {
+        this.contactes.clear();
+        try {
+            FileReader fr = new FileReader(arxiu);
+            BufferedReader br = new BufferedReader(fr);
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] contacte = linea.split(",");
+                String[] fecha = contacte[5].split("-");
+                this.contactes.add (new Contact(
+                        contacte[0],
+                        contacte[1],
+                        contacte[2],
+                        contacte[3],
+                        Integer.parseInt(contacte[4]),
+                        Integer.parseInt(fecha[0]),
+                        Integer.parseInt(fecha[1]),
+                        Integer.parseInt(fecha[2])));
+        }
+            fr.close();
+            this.setContactesFilePath(arxiu);
+    }catch (Exception ex){
+            System.err.println("No s'ha trobat l'arxiu:  " + arxiu.getName());
+        }
     }
 }
