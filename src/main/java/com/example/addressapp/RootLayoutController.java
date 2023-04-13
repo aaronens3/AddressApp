@@ -1,6 +1,10 @@
 package com.example.addressapp;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
@@ -42,6 +46,16 @@ public class RootLayoutController {
             this.addressapp.saveContactDataToFile(arxiu);
         }
     }
+
+    @FXML
+    public void sobreMi() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Sobre mi");
+        alert.setHeaderText("Informació del Autor");
+        alert.setContentText("Nom y Cognom: Aaron Primo Almarche");
+        alert.showAndWait();
+    }
+
     private File mostrarDialeg(String tipus) {
         File arxiu;
         FileChooser fileChooser = new FileChooser();
@@ -57,3 +71,5 @@ public class RootLayoutController {
 
     private AddressApp addressapp;
 }
+
+
