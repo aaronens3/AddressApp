@@ -29,6 +29,9 @@ public class IndexController implements Initializable {
     private Label codiPostalLabel;
     @FXML
     private Label dataNaixementLabel;
+    @FXML
+    private TableView<Contact> ContactEditDialogController;
+
 
     @FXML
     private void deleteContact () {
@@ -49,6 +52,46 @@ public class IndexController implements Initializable {
             alert.setTitle("Error");
             alert.setHeaderText("No hi ha contactes seleccionats");
             alert.setContentText("Selecciona un contacte per poder esborrar-lo");
+            alert.showAndWait();
+        }
+    }
+    @FXML
+    private void newContact () {
+        Contact tempContact = new Contact();
+        boolean okClicked = addressApp.showContactEditDialog(tempContact);
+        if (okClicked) {
+            addressApp.getContactes().add(tempContact);
+        }
+    }
+    @FXML
+    private void editContact () {
+        Contact selectedContact = contactTable.getSelectionModel().getSelectedItem();
+        if (selectedContact != null) {
+            boolean okClicked = addressApp.showContactEditDialog(selectedContact);
+            if (okClicked) {
+                showContactDetails(selectedContact);
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("No hi ha contactes seleccionats");
+            alert.setContentText("Selecciona un contacte per poder editar-lo");
+            alert.showAndWait();
+        }
+    }
+    @FXML
+    private void ContactEditDialogController () {
+        Contact selectedContact = contactTable.getSelectionModel().getSelectedItem();
+        if (selectedContact != null) {
+            boolean okClicked = addressApp.showContactEditDialog(selectedContact);
+            if (okClicked) {
+                showContactDetails(selectedContact);
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("No hi ha contactes seleccionats");
+            alert.setContentText("Selecciona un contacte per poder editar-lo");
             alert.showAndWait();
         }
     }

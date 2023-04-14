@@ -25,12 +25,12 @@
             <Label text="Ciutat" GridPane.rowIndex="3" />
             <Label text="Codi Postal" GridPane.rowIndex="4" />
             <Label text="Data de Naixement" GridPane.rowIndex="5" />
-            <TextField GridPane.columnIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="nomField" GridPane.columnIndex="1" />
+            <TextField fx:id="cognomsField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="domiciliField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="ciutatField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="codiPostalField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="dataNaixementField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
       </GridPane>
       <HBox layoutX="437.0" layoutY="346.0" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">

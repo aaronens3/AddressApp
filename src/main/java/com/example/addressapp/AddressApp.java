@@ -18,14 +18,15 @@ import java.io.*;
 public class AddressApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
+    private Stage dialogStage;
 
     private ObservableList<Contact> contactes = FXCollections.observableArrayList();
 
     public AddressApp() {
         this.contactes.add(new Contact("Guillermo", "Garrido Portes", "C/Albacete", "Valencia", 47002, 11, 01, 1995));
-        this.contactes.add(new Contact("Pepe", "Antonio", "C/Albacete", "Valencia", 47002, 11, 01, 1995));
-        this.contactes.add(new Contact("Guillermo", "Garrido Portes", "C/Albacete", "Valencia", 47002, 11, 01, 1995));
-        this.contactes.add(new Contact("Guillermo", "Garrido Portes", "C/Albacete", "Valencia", 47002, 11, 01, 1995));
+        this.contactes.add(new Contact("Pepe", "Antonio", "C/Albacete", "Valencia", 47002, 11, 01, 2002));
+        this.contactes.add(new Contact("Jose", "Genis Portes", "C/Andaluz", "Madrid", 47002, 11, 01, 2004));
+        this.contactes.add(new Contact("Veronica", "Primo Parra", "C/Albacete", "Valencia", 47180, 29, 11, 2001));
         this.contactes.add(new Contact("Guillermo", "Garrido Portes", "C/Albacete", "Valencia", 47002, 11, 01, 1995));
     }
 
@@ -39,6 +40,7 @@ public class AddressApp extends Application {
         this.primaryStage.setTitle("Activitat Avaluable 2 - APrimo");
         Image icona = new Image("file:resources/images/icona.png");
         this.primaryStage.getIcons().add(icona);
+
         initRootLayout();
         showIndex();
 
@@ -70,6 +72,26 @@ public class AddressApp extends Application {
             this.primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+public boolean showContactEditDialog(Contact contacte) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("ContactEditDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+            this.dialogStage = new Stage();
+            this.dialogStage.setTitle("Editar contacte");
+            Scene scene = new Scene(page);
+            this.dialogStage.setScene(scene);
+            ContactEditDialogController controller = loader.getController();
+            controller.setDialogStage(this.dialogStage);
+            controller.setContacte(contacte);
+            this.dialogStage.showAndWait();
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
