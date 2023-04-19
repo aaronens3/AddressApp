@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import models.Contact;
@@ -19,6 +20,7 @@ public class AddressApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
     private Stage dialogStage;
+
 
     private ObservableList<Contact> contactes = FXCollections.observableArrayList();
 
@@ -43,9 +45,9 @@ public class AddressApp extends Application {
 
         initRootLayout();
         showIndex();
-
-
     }
+
+
 
     private void showIndex() {
         try {
@@ -77,18 +79,33 @@ public class AddressApp extends Application {
 
 public boolean showContactEditDialog(Contact contacte) {
         try {
+            // Carrega el fitxer fxml i crea un nou stage per al diàleg
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("ContactEditDialog.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
+            // Crea el diàleg Stage
             this.dialogStage = new Stage();
             this.dialogStage.setTitle("Editar contacte");
+            if (contacte.getNom().get() != null) {
+                this.dialogStage.setTitle("Editar contacte: " + contacte.getNom().get());
+            }
+            // Inicialitza el diàleg
+            dialogStage.initOwner(this.primaryStage);
+            dialogStage.initModality(Modality.WINDOW_MODAL);
             Scene scene = new Scene(page);
             this.dialogStage.setScene(scene);
+
+            // Passa el contacte al controlador
             ContactEditDialogController controller = loader.getController();
             controller.setDialogStage(this.dialogStage);
             controller.setContacte(contacte);
+
+            // Mostra el diàleg i espera a que l'usuari el tanqui
             this.dialogStage.showAndWait();
+
+            // Retorna true si l'usuari ha fet click a OK, false en cas contrari
             return controller.getOkClicked();
+
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -97,7 +114,7 @@ public boolean showContactEditDialog(Contact contacte) {
 
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 
     public Window getPrimaryStage() {
@@ -176,4 +193,6 @@ public boolean showContactEditDialog(Contact contacte) {
             System.err.println("No s'ha trobat l'arxiu:  " + arxiu.getName());
         }
     }
+
+
 }

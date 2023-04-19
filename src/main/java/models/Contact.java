@@ -33,6 +33,7 @@ public class Contact {
         this.dataNaixement = new SimpleObjectProperty<>(null);
     }
 
+
     public SimpleStringProperty getNom() {
         return nom;
     }
@@ -80,5 +81,8 @@ public class Contact {
     public void setDataNaixement (SimpleObjectProperty<LocalDate> dataNaixement) {
         this.dataNaixement = dataNaixement;
     }
+
+
+
 
 }

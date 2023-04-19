@@ -79,6 +79,8 @@ public class IndexController implements Initializable {
             alert.showAndWait();
         }
     }
+
+
     @FXML
     private void ContactEditDialogController () {
         Contact selectedContact = contactTable.getSelectionModel().getSelectedItem();

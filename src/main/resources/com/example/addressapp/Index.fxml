@@ -54,7 +54,7 @@
                   <HBox layoutX="135.0" layoutY="411.0" spacing="25.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#newContact" text="Nou" />
-                        <Button mnemonicParsing="false" text="Editar" />
+                        <Button mnemonicParsing="false" onAction="#editContact" text="Editar" />
                         <Button mnemonicParsing="false" onAction="#deleteContact" text="Borrar" />
                      </children>
                   </HBox>

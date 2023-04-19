@@ -44,20 +44,21 @@ public class ContactEditDialogController {
     }
 
 
+
     private boolean areFormInputsValid(){
         String errorMessage = "";
 
         if (nomField.getText() == null || nomField.getText().length() == 0) {
-            errorMessage += "No es valid el nom\n";
+            errorMessage += "Nom no vàlid.\n";
         }
         if (cognomsField.getText() == null || cognomsField.getText().length() == 0) {
-            errorMessage += "El Cognom no es valid!\n";
+            errorMessage += "Cognoms no vàlids.\n";
         }
         if (domiciliField.getText() == null || domiciliField.getText().length() == 0) {
-            errorMessage += "No es un carrer correcte!\n";
+            errorMessage += "Domicili no vàlid.\n";
         }
         if (ciutatField.getText() == null || ciutatField.getText().length() == 0) {
-            errorMessage += "No es una Ciudad valida!\n";
+            errorMessage += "Ciutat no vàlid.\n";
         }
         if (codiPostalField.getText() == null || codiPostalField.getText().length() == 0) {
             errorMessage += "No es un codic postal correcte!\n";
@@ -78,7 +79,7 @@ public class ContactEditDialogController {
         if (errorMessage.length() == 0) {
             return true;
         } else {
-            // Show the error message.
+            // Mostrar el missatge d'error
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.initOwner(dialogStage);
             alert.setTitle("Camps invalids");
@@ -89,18 +90,11 @@ public class ContactEditDialogController {
         }
     }
 
-    public void newContacte() {
+    public void newContact() {
         Contact tempContacte = new Contact();
         boolean okClicked = this.addressApp.showContactEditDialog(tempContacte);
         if (okClicked) {
             addressApp.getContactes().add(tempContacte);
-        }
-    }
-
-    public void editContacte(Contact contacte) {
-        boolean okClicked = this.addressApp.showContactEditDialog(contacte);
-        if (okClicked) {
-            this.loadContacte(contacte);
         }
     }
 
