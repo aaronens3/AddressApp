@@ -88,7 +88,7 @@ public boolean showContactEditDialog(Contact contacte) {
             controller.setDialogStage(this.dialogStage);
             controller.setContacte(contacte);
             this.dialogStage.showAndWait();
-            return controller.isOkClicked();
+            return controller.getOkClicked();
         } catch (IOException e) {
             e.printStackTrace();
             return false;

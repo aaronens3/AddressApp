@@ -35,8 +35,8 @@
       </GridPane>
       <HBox layoutX="437.0" layoutY="346.0" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
          <children>
-            <Button mnemonicParsing="false" text="OK" />
-            <Button mnemonicParsing="false" text="Cancel·lar" />
+            <Button mnemonicParsing="false" onAction="#ok" text="OK" />
+            <Button mnemonicParsing="false" onAction="#cancel" text="Cancel·lar" />
          </children>
       </HBox>
    </children>
